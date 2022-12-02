@@ -1,0 +1,92 @@
+#create phone table 
+CREATE TABLE IF NOT EXISTS phone(battery_power INT, blue INT, clock_speed FLOAT, dual_sim INT, fc INT, four_g INT, int_memory INT, m_dep FLOAT, mobile_wt INT, n_cores INT, pc INT, px_height INT, px_width INT, ram INT, sc_h INT, sc_w INT, talk_time INT, three_g INT,  touch_screen INT, wifi INT, price_range INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+
+#loading Phone table data from Hadoop
+LOAD DATA INPATH  '/train.csv' INTO TABLE phone;
+
+#range camera
+#0-10
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_fc_10'
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(fc), price_range FROM phone WHERE fc <= 10 GROUP BY price_range;
+
+#10-15
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_fc_10_15' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(fc), price_range FROM phone WHERE fc > 10 AND fc <= 15 GROUP BY price_range;
+
+#>15
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_fc_m_15' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(fc), price_range FROM phone WHERE fc > 15 GROUP BY price_range;
+
+
+
+#range RAM
+#0-500
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_ram_500' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(ram), price_range FROM phone WHERE ram <= 500 GROUP BY price_range;
+
+#500-1000
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_ram_500_1000' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(ram), price_range FROM phone WHERE ram > 500 AND ram <= 1000 GROUP BY price_range;
+
+#1000-2000
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_ram_1000_2000' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(ram), price_range FROM phone WHERE ram > 1000 AND ram <= 2000 GROUP BY price_range;
+
+#2000-3000
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_ram_2000_3000' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(ram), price_range FROM phone WHERE ram > 2000 AND ram <= 3000 GROUP BY price_range;
+
+#>3000
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_ram_m_3000' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(ram), price_range FROM phone WHERE ram > 3000 GROUP BY price_range;
+
+
+
+
+#range battery
+#500-800
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_battery_power_500_800' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(battery_power), price_range FROM phone WHERE battery_power >= 500 AND battery_power < 800 GROUP BY price_range;
+
+#800-1000
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_battery_power_800_1000' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(battery_power), price_range FROM phone WHERE battery_power >= 800 AND battery_power < 1000 GROUP BY price_range;
+
+#1000-1200
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_battery_power_1000_1200' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(battery_power), price_range FROM phone WHERE battery_power >= 1000 AND ram < 1200 GROUP BY price_range;
+
+#1200-1400
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_battery_power_1200_1400' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(battery_power), price_range FROM phone WHERE battery_power >= 1200 AND battery_power < 1400 GROUP BY price_range;
+
+#>1400
+INSERT OVERWRITE LOCAL DIRECTORY '/home/bigdata/server/price_battery_power_m_1400' 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+SELECT COUNT(battery_power), price_range FROM phone WHERE battery_power >= 1400 GROUP BY price_range;
+
