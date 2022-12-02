@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="JPMML-SparkML command-line application" version="2.2.0"/>
+		<Timestamp>2022-12-02T09:54:33Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="battery_power" optype="continuous" dataType="integer"/>
+		<DataField name="int_memory" optype="continuous" dataType="integer"/>
+		<DataField name="mobile_wt" optype="continuous" dataType="integer"/>
+		<DataField name="n_cores" optype="continuous" dataType="integer"/>
+		<DataField name="pc" optype="continuous" dataType="integer"/>
+		<DataField name="ram" optype="continuous" dataType="integer"/>
+		<DataField name="inch" optype="continuous" dataType="double"/>
+		<DataField name="ppi" optype="continuous" dataType="integer"/>
+		<DataField name="four_g" optype="continuous" dataType="integer"/>
+		<DataField name="price_range" optype="categorical" dataType="integer">
+			<Value value="0"/>
+			<Value value="1"/>
+			<Value value="2"/>
+			<Value value="3"/>
+		</DataField>
+	</DataDictionary>
+	<RegressionModel functionName="classification" normalizationMethod="softmax">
+		<MiningSchema>
+			<MiningField name="price_range" usageType="target"/>
+			<MiningField name="four_g"/>
+			<MiningField name="battery_power"/>
+			<MiningField name="int_memory"/>
+			<MiningField name="mobile_wt"/>
+			<MiningField name="n_cores"/>
+			<MiningField name="pc"/>
+			<MiningField name="ram"/>
+			<MiningField name="inch"/>
+			<MiningField name="ppi"/>
+		</MiningSchema>
+		<Output>
+			<OutputField name="pmml(prediction)" optype="categorical" dataType="integer" isFinalResult="false"/>
+			<OutputField name="prediction" optype="continuous" dataType="double" feature="transformedValue">
+				<MapValues outputColumn="data:output" dataType="double">
+					<FieldColumnPair field="pmml(prediction)" column="data:input"/>
+					<InlineTable>
+						<row>
+							<data:input>0</data:input>
+							<data:output>0</data:output>
+						</row>
+						<row>
+							<data:input>1</data:input>
+							<data:output>1</data:output>
+						</row>
+						<row>
+							<data:input>2</data:input>
+							<data:output>2</data:output>
+						</row>
+						<row>
+							<data:input>3</data:input>
+							<data:output>3</data:output>
+						</row>
+					</InlineTable>
+				</MapValues>
+			</OutputField>
+			<OutputField name="probability(0)" optype="continuous" dataType="double" feature="probability" value="0"/>
+			<OutputField name="probability(1)" optype="continuous" dataType="double" feature="probability" value="1"/>
+			<OutputField name="probability(2)" optype="continuous" dataType="double" feature="probability" value="2"/>
+			<OutputField name="probability(3)" optype="continuous" dataType="double" feature="probability" value="3"/>
+		</Output>
+		<LocalTransformations>
+			<DerivedField name="features_scaled[0]" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="battery_power"/>
+						<Constant dataType="double">501.0</Constant>
+					</Apply>
+					<Constant dataType="double">1497.0</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="features_scaled[1]" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="int_memory"/>
+						<Constant dataType="double">2.0</Constant>
+					</Apply>
+					<Constant dataType="double">62.0</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="features_scaled[2]" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="mobile_wt"/>
+						<Constant dataType="double">80.0</Constant>
+					</Apply>
+					<Constant dataType="double">120.0</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="features_scaled[3]" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="n_cores"/>
+						<Constant dataType="double">1.0</Constant>
+					</Apply>
+					<Constant dataType="double">7.0</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="features_scaled[4]" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="pc"/>
+						<Constant dataType="double">0.0</Constant>
+					</Apply>
+					<Constant dataType="double">20.0</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="features_scaled[5]" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="ram"/>
+						<Constant dataType="double">256.0</Constant>
+					</Apply>
+					<Constant dataType="double">3742.0</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="features_scaled[6]" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="inch"/>
+						<Constant dataType="double">1.96</Constant>
+					</Apply>
+					<Constant dataType="double">8.3</Constant>
+				</Apply>
+			</DerivedField>
+			<DerivedField name="features_scaled[7]" optype="continuous" dataType="double">
+				<Apply function="/">
+					<Apply function="-">
+						<FieldRef field="ppi"/>
+						<Constant dataType="double">56.0</Constant>
+					</Apply>
+					<Constant dataType="double">946.0</Constant>
+				</Apply>
+			</DerivedField>
+		</LocalTransformations>
+		<RegressionTable intercept="38.740179145549384" targetCategory="0">
+			<NumericPredictor name="features_scaled[0]" coefficient="-14.028552837159332"/>
+			<NumericPredictor name="features_scaled[1]" coefficient="-1.1271446876105933"/>
+			<NumericPredictor name="features_scaled[2]" coefficient="1.9779961149859622"/>
+			<NumericPredictor name="features_scaled[3]" coefficient="0.06864282523779568"/>
+			<NumericPredictor name="features_scaled[4]" coefficient="0.3852461196178959"/>
+			<NumericPredictor name="features_scaled[5]" coefficient="-53.85289131655084"/>
+			<NumericPredictor name="features_scaled[6]" coefficient="-12.16918709300527"/>
+			<NumericPredictor name="features_scaled[7]" coefficient="-22.388098609904006"/>
+			<NumericPredictor name="four_g" coefficient="0.04840260131595071"/>
+		</RegressionTable>
+		<RegressionTable intercept="19.944511697635335" targetCategory="1">
+			<NumericPredictor name="features_scaled[0]" coefficient="-4.713133532361631"/>
+			<NumericPredictor name="features_scaled[1]" coefficient="-0.22291458155907892"/>
+			<NumericPredictor name="features_scaled[2]" coefficient="0.48650137067191074"/>
+			<NumericPredictor name="features_scaled[3]" coefficient="-0.49665100049399286"/>
+			<NumericPredictor name="features_scaled[4]" coefficient="-0.14860209444452277"/>
+			<NumericPredictor name="features_scaled[5]" coefficient="-17.83238178360054"/>
+			<NumericPredictor name="features_scaled[6]" coefficient="-5.145347819681296"/>
+			<NumericPredictor name="features_scaled[7]" coefficient="-8.532410935540643"/>
+			<NumericPredictor name="four_g" coefficient="-0.024505929877023425"/>
+		</RegressionTable>
+		<RegressionTable intercept="-9.71122490846634" targetCategory="2">
+			<NumericPredictor name="features_scaled[0]" coefficient="4.583181048412763"/>
+			<NumericPredictor name="features_scaled[1]" coefficient="0.21233892052043676"/>
+			<NumericPredictor name="features_scaled[2]" coefficient="0.024121642317175777"/>
+			<NumericPredictor name="features_scaled[3]" coefficient="0.17598402683209652"/>
+			<NumericPredictor name="features_scaled[4]" coefficient="-0.09737226322159767"/>
+			<NumericPredictor name="features_scaled[5]" coefficient="17.6929012711197"/>
+			<NumericPredictor name="features_scaled[6]" coefficient="3.458474439696663"/>
+			<NumericPredictor name="features_scaled[7]" coefficient="7.240850858645324"/>
+			<NumericPredictor name="four_g" coefficient="-0.24885305173514027"/>
+		</RegressionTable>
+		<RegressionTable intercept="-48.97346593471838" targetCategory="3">
+			<NumericPredictor name="features_scaled[0]" coefficient="14.1585053211082"/>
+			<NumericPredictor name="features_scaled[1]" coefficient="1.1377203486492355"/>
+			<NumericPredictor name="features_scaled[2]" coefficient="-2.4886191279750487"/>
+			<NumericPredictor name="features_scaled[3]" coefficient="0.25202414842410065"/>
+			<NumericPredictor name="features_scaled[4]" coefficient="-0.13927176195177546"/>
+			<NumericPredictor name="features_scaled[5]" coefficient="53.99237182903168"/>
+			<NumericPredictor name="features_scaled[6]" coefficient="13.856060472989906"/>
+			<NumericPredictor name="features_scaled[7]" coefficient="23.67965868679932"/>
+			<NumericPredictor name="four_g" coefficient="0.22495638029621298"/>
+		</RegressionTable>
+	</RegressionModel>
+</PMML>
+
