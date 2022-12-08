@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> BigDataManagement </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body onload=hideAlert()>
+    <script>function hideAlert(){$('.alert').hide();}</script>
+    <!--predicted class output-->
+    <div class="alert alert-primary" role="alert" >
+        <h4 class="alert-heading text-center" id="ClassRange"></h4>
+        <hr>
+        <p  class="alert mb-0 text-center" role="alert">Ora che conosci il prezzo guarda le caratteristiche degli 
+            smartphone della stessa fascia!</p>
+    </div>
+    <div class="container-fluid">
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-6 ">
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+                    crossorigin="anonymous">
+                    </script>
+                    <!--form about features-->
+                <div class="text-center">
+                    <h4> Scopri la fascia di prezzo del tuo smartphone! </h4>
+                    <form id="phone">
+                        <!--features-->
+                        <label for="battery_power"> Capacità Batteria (mha) </label><br>
+                        <input type="number" id="battery_power" name="battery_power"><br>
+
+                        <label for="four_g"> Tecnologia 4G (si o no)</label><br>
+                        <select id="four_g" name="four_g">
+                            <option value="1">Si</option>
+                            <option value="0">No</option>
+                        </select><br>
+
+                        <label for="int_memory"> Storage (GB)</label><br>
+                        <input type="number" id="int_memory" name="int_memory"><br>
+
+                        <label for="mobile_wt"> Peso (g) </label><br>
+                        <input type="number" id="mobile_wt" name="mobile_wt"><br>
+
+                        <label for="n_cores"> Numero Di Core </label><br>
+                        <input type="number" id="n_cores" name="n_cores"><br>
+
+                        <label for="pc"> Camera Mega Pixels (MP) </label><br>
+                        <input type="number" id="pc" name="pc"><br>
+
+                        <label for="ram"> RAM (MB)</label><br>
+                        <input type="number" id="ram" name="ram"><br>
+
+                        <label for="inch"> Pollici </label><br>
+                        <input type="number" id="inch" name="inch"><br>
+
+                        <label for="ppi"> PPI (pixel per pollice)</label><br>
+                        <input type="number" id="ppi" name="ppi"><br><br>
+
+                        <input type="button" class="btn btn-primary" value="Submit" onclick="getClass()">
+                        <input type="reset" class="btn btn-warning" value="Reset">
+                    </form>
+                    
+                </div>
+            </div>
+            <div class="col-6">
+                <div id="pieChart" style="width:100%;max-width:700px"></div>
+
+                <script>
+                    //loading data from serverPhone.js
+                    //pie plot about Mega pixel 
+                    function cameraPlot(data_array) {
+                        for (let i = 0; i < data_array.range.length; i++) {
+                            if (data_array.range[i] == "10") {
+                                data_array.range[i] = "Minore di " + data_array.range[i] + " MP"
+                            } else if (data_array.range[i] == "m_15") {
+                                data_array.range[i] = "Maggiore di " + data_array.range[i].replace("m_", "") + " MP"
+                            }
+                            else {
+                                data_array.range[i] = "tra " + data_array.range[i].replace("_", " e ") + " MP"
+                            }
+                        }
+                        let xArray = data_array.range;
+                        let yArray = data_array.val;
+
+                        let layout = { title: "Range - Camera MegaPixel" };
+
+                        let data = [{ labels: xArray, values: yArray, type: "pie" }];
+
+                        Plotly.newPlot("pieChart", data, layout);
+                    }
+                </script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="barChart" style="width:100%;max-width:700px"></div>
+                <script>
+                    //vertical bar plot about ram MB
+                    function ramPlot(data_array) {
+                        for (let i = 0; i < data_array.range.length; i++) {
+                            if (data_array.range[i] == "500") {
+                                data_array.range[i] = "Minore di " + data_array.range[i] + " MB"
+                            } else if (data_array.range[i] == "m_3000") {
+                                data_array.range[i] = "Maggiore di " + data_array.range[i].replace("m_", "") + " MB"
+                            }
+                            else {
+                                data_array.range[i] = "tra " + data_array.range[i].replace("_", " e ") + " MB"
+                            }
+                        }
+
+                        let xArray = data_array.range;
+
+
+                        let yArray = data_array.val;
+
+                        let data = [{
+                            x: xArray,
+                            y: yArray,
+                            type: "bar"
+                        }];
+
+                        let layout = { title: "Range - RAM" };
+
+                        Plotly.newPlot("barChart", data, layout);
+                    }
+                </script>
+            </div>
+            <div class="col">
+                <div id="barCharth" style="width:100%;max-width:700px"></div>
+
+                <script>
+                    //horizontal bar plot for battery power mha
+                    function batteryPlot(data_array) {
+                        for (let i = 0; i < data_array.range.length; i++) {
+                            if (data_array.range[i] == "m_1400") {
+                                data_array.range[i] = "Maggiore di " + data_array.range[i].replace("m_", "") + " mAh"
+                            }
+                            else {
+                                data_array.range[i] = "tra " + data_array.range[i].replace("_", " e ") + " mAh"
+                            }
+                        }
+                        let yArray = data_array.range;
+                        let xArray = data_array.val;
+
+                        let data = [{
+                            x: xArray,
+                            y: yArray,
+                            type: "bar",
+                            textposition: "inside",
+                            texttemplate: "%{label}",
+                            orientation: "h",
+                            marker: { color: "rgba(255,0,0,0.6)" }
+                        }];
+
+                        let layout = {
+                            title: "Range - Capacità Batteria",
+                            yaxis: {"visible": false, ticks: false}
+                        };
+
+                        Plotly.newPlot("barCharth", data, layout);
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    results = 0;
+    //getclass calls all other function for predict prices and load plot data
+    function getClass() {
+        form_data = getFormElements();
+        predict(form_data);
+        
+    };
+
+    //Getting data from client form
+    function getFormElements() {
+         var x = document.getElementById("phone")
+         let data = {
+             battery_power: parseInt(x.elements[0].value),
+             four_g: parseInt(x.elements[1].value),
+             int_memory: parseInt(x.elements[2].value),
+             mobile_wt: parseInt(x.elements[3].value),
+             n_cores: parseInt(x.elements[4].value),
+             pc: parseInt(x.elements[5].value),
+             ram: parseInt(x.elements[6].value),
+             inch: parseFloat(x.elements[7].value),
+             ppi: parseFloat(x.elements[8].value)
+         }
+         let postData = {
+             id: "phone",
+             arguments: data
+         }
+         return postData
+     };
+ 
+     //sending data to openscoring for prediction
+     function predict(obj) {
+         xhr = new XMLHttpRequest();
+         var url = "http://localhost:8080/openscoring/model/model";
+         xhr.open("POST", url, true);
+         xhr.setRequestHeader("Content-type", "application/json");
+         xhr.setRequestHeader('Accept', 'application/json');
+         xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+         xhr.onreadystatechange = function () {
+             if (xhr.readyState == 4 && xhr.status == 200) {
+                 var json = JSON.parse(xhr.responseText);
+                 results = parseInt(json.results.price_range);
+                 getPlotData(results);
+                 setString(results);
+             }
+         }
+         var data = JSON.stringify(obj);
+         xhr.send(data);
+         
+     };
+    
+    //function for obtain plot data
+    function getPlotData(class_predicted) {
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "/loadRawData?class_predicted=" + class_predicted, true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.setRequestHeader('Accept', 'application/json');
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var plot_data = JSON.parse(xhr.responseText);
+                cameraPlot(plot_data[0]);
+                ramPlot(plot_data[1]);
+                batteryPlot(plot_data[2]);
+            }
+        };
+
+        xhr.send(class_predicted);
+    };
+
+    //function to rename class results
+    function setString(results){
+            if(results == 0){
+                results = "bassa";
+            } else if(results == 1){
+                results = "economica";
+            } else if(results == 2){
+                results = "media";
+            } else{
+                results = "alta";
+            }
+            document.getElementById("ClassRange").innerHTML = "Fascia " + results;
+            $(".alert").show();
+    }
+</script>
+
+</html>
