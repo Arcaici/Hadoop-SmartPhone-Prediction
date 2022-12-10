@@ -1,7 +1,7 @@
 ## Hadoop Local Configuration
 
 Before going through those configuration you should already have configured a ssh connection, without password, to your localhost
-and have downloaded Hadoop,Spark and Hive
+and have downloaded Hadoop, Spark and Hive
 
 ### Environment Variables
 
