@@ -1,7 +1,7 @@
 ## Hadoop Cluster Configuration
 
 Before going through those configuration you should already have configured a ssh connection, without password, between all your nodes
-and MUST downloaded Hadoop in all machines(Master and Slaves), Spark and Hive
+and you MUST download Hadoop in all machines(Master and Slaves), Spark and Hive.
 
 ### Environment Variables
 
