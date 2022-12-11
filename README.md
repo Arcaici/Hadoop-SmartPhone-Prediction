@@ -6,6 +6,6 @@ The repo contains a client-server app that generates predictions and charts usin
 ## Configuration
 
 Configuration are available as README to:
-*[Hadoop Local Mode](https://github.com/Arcaici/Hadoop-SmartPhone-Prediction/blob/main/local)
-*[Hadoop Cluster Mode](https://github.com/Arcaici/Hadoop-SmartPhone-Prediction/tree/main/cluster)
+* [Hadoop Local Mode](https://github.com/Arcaici/Hadoop-SmartPhone-Prediction/blob/main/local)
+* [Hadoop Cluster Mode](https://github.com/Arcaici/Hadoop-SmartPhone-Prediction/tree/main/cluster)
 
