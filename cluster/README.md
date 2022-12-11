@@ -1,11 +1,11 @@
-## Hadoop Local Configuration
+## Hadoop Cluster Configuration
 
 Before going through those configuration you should already have configured a ssh connection, without password, between all your nodes
 and MUST downloaded Hadoop in all machines(Master and Slaves), Spark and Hive
 
 ### Environment Variables
 
-**Both Machines**
+**Both Machines**  
 /home
 ```
   sudo nano .bashrc
@@ -52,9 +52,9 @@ You need to configure different files.
 
 #### core-site.xml file
 
-This is HDFS filesystem namenode (Master).
+**Master Machine**  
+This is HDFS filesystem namenode.
 ```
-<!--Master Machine Name: Node1-->
 <configuration>
         <property>
                 <name>hadoop.tmp.dir</name>
@@ -73,8 +73,20 @@ This is HDFS filesystem namenode (Master).
 </configuration>
 ```
 
+**Slave Machines**
+```
+<configuration>
+	<property>
+		<name>fs.defaultFS</name>
+		<value>hdfs://Node1:9820/</value>
+		<description>NameNode URI</description>
+	</property>
+</configuration>
+```
+
 #### hdfs-site.xml file
 
+**Master Machine**  
 Here we are setting replication factor, namenode directory path, datanode directory path.
 ```
 <configuration>
@@ -107,7 +119,30 @@ Here we are setting replication factor, namenode directory path, datanode direct
 </configuration>
 ```
  
- After those changes you MUST create the given folders on **Both Machines**:
+**Slaves Machines**
+```
+<configuration>
+	<property>
+                <name>dfs.datanode.data.dir</name>
+                <value>file:///home/bigdata/hdfs/datanode</value>
+                <description>DataNode directory</description>
+        </property>
+        <property>
+                <name>dfs.replication</name>
+                <value>3</value>
+        </property>
+        <property>
+                <name>dfs.permissions</name>
+                <value>false</value>
+        </property>
+        <property>
+                <name>dfs.datanode.use.datanode.hostname</name>
+                <value>false</value>
+        </property>
+</configuration>
+```
+
+After those changes you MUST create the given folders on **Both Machines**:
 ```
  mkdir /{your-path}/hdfs
  mkdir /{your-path}/hdfs/namenode
@@ -116,6 +151,7 @@ Here we are setting replication factor, namenode directory path, datanode direct
 
 #### hadoop-env.sh file
 
+**Both Machines**  
 Find  your JAVA path and then open hadoop-env.sh, find the lines below and update them:
 ```
 # The java implementation to use. By default, this environment
@@ -149,12 +185,11 @@ export HADOOP_LOG_DIR="/home/bigdata/hadoop-3.3.4/logs"
 
 #### yarn-siste.xml
 
-**Master Machine**
+**Master Machine**  
 In this file we setted up jsut two queues, dev and prod , because we want to implement capacity scheduler.
 Usualy in this configuration file we should add also resourcemanager path, but because is hadoop local mode,the system presuppose that it is inside localhost.
 
 ```
-<!-- Only master -->
 <configuration>
         <property>
                 <name>yarn.nodemanager.aux-services</name>
@@ -201,8 +236,15 @@ Usualy in this configuration file we should add also resourcemanager path, but b
 ```
 
 **Slave Machines**
-
-//TODO
+```
+<configuration>
+	<property>
+		<name>yarn.nodemanager.aux-services</name>
+		<value>mapreduce_shuffle</value>
+		<description>Yarn Node Manager Aux Service</description>
+	</property>
+</configuration>
+```
 
 #### workers 
 
@@ -214,7 +256,7 @@ ip Nodemanager2
 
 #### mapred-site.xml file
 
-**Master Machine**
+**Master Machine**  
 Some configuration for MapReduce engine.
 ```
 <configuration>
@@ -257,13 +299,21 @@ Some configuration for MapReduce engine.
         </property>
 </configuration>
 ```
-**Slaves Machines**
 
-//TODO
+**Slaves Machines**
+```
+<configuration>
+	<property>
+		<name>mapreduce.framework.name</name>
+		<value>yarn</value>
+		<description>MapReduce framework name</description>
+	</property>
+</configuration>
+```
 
 ### Last HDFS/YARN Configuration Step!
 
-**Both Machines**
+**Both Machines**  
 Now that Hadoop is setted up there is just one last step, we need to format namenode.
 
 go to:
