@@ -1,5 +1,9 @@
 # Hadoop-SmartPhone-Prediction
 
+## Authors
+- [Maiorani Simone](https://github.com/maioranisimone)
+- [Venturi Marco](https://github.com/Arcaici)
+
 ## Introduction
 The repo contains a Hadoop cluster configuration and a client-server app. The goal is to predict smartphone's price range using a machine learning model generated over Apache Spark, and visualize charts about smarphone statistics using data originated by Apache Hive.
 
