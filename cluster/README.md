@@ -1,6 +1,6 @@
 ## Hadoop Cluster Configuration
 
-Before going through those configuration you should already have configured a ssh connection, without password, between all your nodes
+Before going through these configuration you should already have configured a ssh connections, without password, between all your nodes
 and you MUST download Hadoop in all machines(Master and Slaves), Spark and Hive.
 
 ### Environment Variables
@@ -11,33 +11,33 @@ and you MUST download Hadoop in all machines(Master and Slaves), Spark and Hive.
   sudo nano .bashrc
 ```
 
-Paste those env var and change the below folder names with your Hadoop/Spark/Hive folder path and names.
+Paste these env vars and change the below folder names with your Hadoop/Spark/Hive folder paths and names.
 ```
 #Hadoop Path
-export HADOOP_HOME="/home/bigdata/hadoop-3.3.4"
+export HADOOP_HOME="{your-Hadoop-path}"
 #export HADOOP_CONF_DIR=$HADOOP_DIR/etc/hadoop
-export HADOOP_INSTALL="/home/bigdata/hadoop-3.3.4"
+export HADOOP_INSTALL="{your-Hadoop-path}"
 export PATH=$PATH:$HADOOP_INSTALL/bin
 export PATH=$PATH:$HADOOP_INSTALL/sbin
-export HADOOP_CONF_DIR="/home/bigdata/hadoop-3.3.4/etc/hadoop"
+export HADOOP_CONF_DIR="{your-Hadoop-path}/etc/hadoop"
 export HDFS_NAMENODE_USER=bigdata
 export HDFS_DATANODE_USER=bigdata
 export HDFS_SECONDARYNAMENODE_USER=bigdata
-export HADOOP_MAPRED_HOME="/home/bigdata/hadoop-3.3.4"
-export HADOOP_COMMON_HOME="/home/bigdata/hadoop-3.3.4"
-export HADOOP_HDFS_HOME="/home/bigdata/hadoop-3.3.4"
-export YARN_HOME="/home/bigdata/hadoop-3.3.4"
+export HADOOP_MAPRED_HOME="{your-Hadoop-path}"
+export HADOOP_COMMON_HOME="{your-Hadoop-path}"
+export HADOOP_HDFS_HOME="{your-Hadoop-path}"
+export YARN_HOME="{your-Hadoop-path}"
 
 #Java Path
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME={your-Java-path}
 export PATH=$PATH:$JAVA_HOME/bin
 
-export SPARK_HOME="/home/bigdata/spark-3.2.2"
+export SPARK_HOME="{your-Spark-path}"
 ```
 
 **Only Master**
 ```
-export HIVE_HOME=/home/bigdata/apache-hive-2.3.9-bin
+export HIVE_HOME={your-Hive-path}
 export PATH=$PATH:$HIVE_HOME/bin
 ```
 
@@ -45,7 +45,7 @@ export PATH=$PATH:$HIVE_HOME/bin
 
 Inside: 
 ```
-  cd {your-hadoop-folder}/etc/hadoop
+  cd {your-hadoop-path}/etc/hadoop
 ```
 
 You need to configure different files.
@@ -58,7 +58,7 @@ This is HDFS filesystem namenode.
 <configuration>
         <property>
                 <name>hadoop.tmp.dir</name>
-                <value>/home/bigdata/hdfs/tmp</value>
+                <value>{path-to-hdfs-folder}/hdfs/tmp</value>
         </property>
         <property>
                 <name>fs.defaultFS</name>
@@ -92,12 +92,12 @@ Here we are setting replication factor, namenode directory path, datanode direct
 <configuration>
         <property>
                 <name>dfs.namenode.name.dir</name>
-                <value>file:///home/bigdata/hdfs/namenode</value>
+                <value>file://{path-to-hdfs-folder}/hdfs/namenode</value>
                 <description>NameNode directory for namespace and transaction logs storage.</descrip>
         </property>
         <property>
                 <name>dfs.datanode.data.dir</name>
-                <value>file:///home/bigdata/hdfs/datanode</value>
+                <value>file://{path-to-hdfs-folder}/hdfs/datanode</value>
                 <description>DataNode directory</description>
         </property>
         <property>
@@ -124,7 +124,7 @@ Here we are setting replication factor, namenode directory path, datanode direct
 <configuration>
 	<property>
                 <name>dfs.datanode.data.dir</name>
-                <value>file:///home/bigdata/hdfs/datanode</value>
+                <value>file://{path-to-hdfs-folder}/hdfs/datanode</value>
                 <description>DataNode directory</description>
         </property>
         <property>
@@ -142,7 +142,7 @@ Here we are setting replication factor, namenode directory path, datanode direct
 </configuration>
 ```
 
-After those changes you MUST create the given folders on **Both Machines**:
+After these changes you MUST create the given folders on **Both Machines**:
 ```
  mkdir /{your-path}/hdfs
  mkdir /{your-path}/hdfs/namenode
@@ -156,11 +156,11 @@ Find  your JAVA path and then open hadoop-env.sh, find the lines below and updat
 ```
 # The java implementation to use. By default, this environment
 # variable is REQUIRED on ALL platforms except OS X!
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME={your-Java-path}
 
 # Location of Hadoop.  By default, Hadoop will attempt to determine
 # this location based upon its execution path.
-export HADOOP_HOME="/home/bigdata/hadoop-3.3.4"
+export HADOOP_HOME="{your-Hadoop-path}"
 
 # Location of Hadoop's configuration information.  i.e., where this
 # file is living. If this is not defined, Hadoop will attempt to
@@ -170,24 +170,24 @@ export HADOOP_HOME="/home/bigdata/hadoop-3.3.4"
 # /etc/profile.d or equivalent.  Some options (such as
 # --config) may react strangely otherwise.
 #
-export HADOOP_CONF_DIR="/home/bigdata/hadoop-3.3.4/etc/hadoop"
+export HADOOP_CONF_DIR="{your-Hadoop-path}/etc/hadoop"
 ```
 
-update those lines too:
+update these lines too:
 ```
 # Where (primarily) daemon log files are stored.
 # ${HADOOP_HOME}/logs by default.
 # Java property: hadoop.log.dir
-export HADOOP_LOG_DIR="/home/bigdata/hadoop-3.3.4/logs"
+export HADOOP_LOG_DIR="{your-Hadoop-path}/logs"
 ```
 
 ### YARN Configuration file
 
-#### yarn-siste.xml
+#### yarn-site.xml
 
 **Master Machine**  
-In this file we setted up jsut two queues, dev and prod , because we want to implement capacity scheduler.
-Usualy in this configuration file we should add also resourcemanager path, but because is hadoop local mode,the system presuppose that it is inside localhost.
+In this file we setted up just two queues, dev and prod, because we want to implement capacity scheduler.
+Usually in this configuration file we add resourceManager path, but since this configuration belong to Master node, the system presuppose that the resourceManager is inside this machine.
 
 ```
 <configuration>
@@ -202,11 +202,11 @@ Usualy in this configuration file we should add also resourcemanager path, but b
         </property>
         <property>
                 <name>yarn.nodemanager.local-dirs</name>
-                <value>file:///home/bigdata/yarn/local</value>
+                <value>file://{your-folder-path}/yarn/local</value>
         </property>
         <property>
                 <name>yarn.nodemanager.log-dirs</name>
-                <value>file:///home/bigdata/yarn/logs</value>
+                <value>file://{your-folder-path}/yarn/logs</value>
         </property>
         <property>
                 <name>yarn.resourcemanager.scheduler.class</name>
@@ -248,7 +248,7 @@ Usualy in this configuration file we should add also resourcemanager path, but b
 
 #### workers 
 
-Insert you nodemanagers ip:
+Insert your nodeManagers ip:
 ```
 ip NodeManager1
 ip Nodemanager2
@@ -287,15 +287,15 @@ Some configuration for MapReduce engine.
         </property>
         <property>
                 <name>yarn.app.mapreduce.am.env</name>
-                <value>HADOOP_MAPRED_HOME=/home/bigdata/hadoop-3.3.4</value>
+                <value>HADOOP_MAPRED_HOME={your-Hadoop-path}</value>
         </property>
         <property>
                 <name>mapreduce.map.env</name>
-                <value>HADOOP_MAPRED_HOME=/home/bigdata/hadoop-3.3.4</value>
+                <value>HADOOP_MAPRED_HOME={your-Hadoop-path}</value>
         </property>
         <property>
                 <name>mapreduce.reduce.env</name>
-                <value>HADOOP_MAPRED_HOME=/home/bigdata/hadoop-3.3.4</value>
+                <value>HADOOP_MAPRED_HOME={your-Hadoop-path}</value>
         </property>
 </configuration>
 ```
@@ -314,14 +314,14 @@ Some configuration for MapReduce engine.
 ### Last HDFS/YARN Configuration Step!
 
 **Both Machines**  
-Now that Hadoop is setted up there is just one last step, we need to format namenode.
+At this point, we need to format namenode.
 
-go to:
+Go to:
 ```
   cd {your-hadoop-folder}/bin
 ```
 
-and run:
+And run:
 ```
 ./hdfs namenode -format
 ```
@@ -331,19 +331,19 @@ Now we are all set for run Hadoop!
 
 Inside:
 ```
-  cd /{your-spark-path}/conf
+  cd /{your-Spark-path}/conf
 ```
 
 #### spark-env.sh
 
-At the end of the file paste your hadoop, yarn and python path:
+At the end of the file paste your Hadoop, Yarn and Python path:
 ```
-export HADOOP_CONF_DIR=/home/bigdata/hadoop-3.3.4/etc/hadoop/
-export YARN_CONF_DIR=/home/bigdata/hadoop-3.3.4/etc/hadoop/
-export PYSPARK_PYTHON=/home/bigdata/virtualenv/bin/python
+export HADOOP_CONF_DIR={your-Hadoop-path}/etc/hadoop/
+export YARN_CONF_DIR={your-Hadoop-path}/etc/hadoop/
+export PYSPARK_PYTHON={your-Hadoop-path}/virtualenv/bin/python
 ```
 
-In this case we used a virtual enviroment for install python and all libraries.
+In this case we used a virtual enviroment for install Python and all libraries.
 
 #### workers
 
@@ -359,22 +359,22 @@ Now we are all set for run Spark!
 
 Inside:
 ```
-  cd /{your-hive-path}/bin
+  cd /{your-Hive-path}/bin
 ```
  
-go to hive-config.sh:
+Go to hive-config.sh:
 ```
 sudo nano  hive-config.sh
 ```
 
-and and HADOOP_HOME path:
+And add HADOOP_HOME path:
 ```
-export HADOOP_HOME="/home/bigdata/hadoop-3.3.4"
+export HADOOP_HOME="{your-Hadoop-path}"
 ```
 
-#### Creat Hive directories
+#### Create Hive directories
 
-Create those directory inside HDFS file system and give permission to all.
+Create these directory inside HDFS filesystem and give permission to all.
 ```
 hdfs dfs -mkdir /tmp
 hdfs dfs -chmod g+w /tmp
@@ -382,17 +382,17 @@ hdfs dfs -mkdir -p /user/hive/warehouse
 hdfs dfs -chmod g+w /user/hive/warehouse
 ```
 
-#### Guava Conflicts
+#### Guava Conflict
 
-Some times Hive and Hadoop share same guava jar.
-The solution is to remove guava from Hive and dowload the same version of it,
-after just put the dowloaded version inside Hive jars folder.
+Sometimes Hive and Hadoop share same guava jar.
+The solution is to remove guava from Hive and download the same version of it,
+after the download, just put the dowloaded version inside Hive jars folder.
 
 #### Initialize schema
 
 Go to:
 ```
-  cd /{your-hive-path}/conf
+  cd /{your-Hive-path}/conf
 ```
 
 And initialize database schema:
@@ -400,4 +400,4 @@ And initialize database schema:
   schematool -initSchema -dbType derby
 ```
 
-In our case we use derby database for testing purpose, we reccomend to use another type as MySQl that implement multi-client query mode too.
+In our case we use derby database for testing purpose, we recommend to use another type, as MySQL that implement multi-client query mode too.
