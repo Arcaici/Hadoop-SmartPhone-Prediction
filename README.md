@@ -13,7 +13,7 @@ These configuration are available as README to:
 
 ## How to run it
 For run the project you need these packages:
-* numpy library
+* NumPy library
 * [JPMML-SparkML jar](https://github.com/jpmml/jpmml-sparkml#features)
 * [PySpark2PMML](https://github.com/jpmml/pyspark2pmml)
 * [OpenScoring Server](https://openscoring.io/#overview)
