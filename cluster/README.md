@@ -3,6 +3,8 @@
 Before going through these configuration you should already have configured a ssh connections, without password, between all your nodes
 and you MUST download Hadoop in all machines(Master and Slaves), Spark and Hive.
 
+In these configuration we used bigdata as our users names, while Node1 and Node2 as Master and Slave machines respectively.
+
 ### Environment Variables
 
 **Both Machines**  
@@ -242,6 +244,14 @@ Usually in this configuration file we add resourceManager path, but since this c
 		<name>yarn.nodemanager.aux-services</name>
 		<value>mapreduce_shuffle</value>
 		<description>Yarn Node Manager Aux Service</description>
+	</property>
+	<property>
+		<name>yarn.resourcemanager.hostname</name>
+		<value>Node1</value>
+	</property>
+	<property>
+		<name>yarn.resourcemanager.address</name>
+		<value>Node1:8032</value>
 	</property>
 </configuration>
 ```
