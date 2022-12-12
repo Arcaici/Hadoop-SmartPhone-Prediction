@@ -1,26 +1,37 @@
 # Hadoop-SmartPhone-Prediction
 
 ## Introduction
-The repo contains a client-server app that generates predictions and charts using a machine learning model, generated over Hadoop Framework using Apache Spark, and charts data originated by Apache Hive.
+The repo contains a Hadoop cluster configuration and a client-server app. The goal is to predict smartphone's price range using a machine learning model generated over Apache Spark, and visualize charts about smarphone statistics using data originated by Apache Hive.
 
-## Configuration
+## Hadoop Configuration
 
-Configuration are available as README to:
+The application is tested in both local and cluster modes.  
+
+These configuration are available as README to:
 * [Hadoop Local Mode](https://github.com/Arcaici/Hadoop-SmartPhone-Prediction/blob/main/local)
 * [Hadoop Cluster Mode](https://github.com/Arcaici/Hadoop-SmartPhone-Prediction/tree/main/cluster)
 
-## How to run
-For run the project you need
+## How to run it
+For run the project you need these packages:
+* numpy library
+* [JPMML-SparkML jar](https://github.com/jpmml/jpmml-sparkml#features)
+* [PySpark2PMML](https://github.com/jpmml/pyspark2pmml)
+* [OpenScoring Server](https://openscoring.io/#overview)
+* Node.js
+* Google Chrome
 
-### what to install
-First you need to download [JPMML-SparkML jar](https://github.com/jpmml/jpmml-sparkml#features) and add it to spark jars folder. After jar download it's time to install [PySpark2PMML](https://github.com/jpmml/pyspark2pmml). Before Downloading and installing all pmml library please check wich Spark version you have and check on pmml documentation wich version is compatible with your. Remember to install numpy too, because is used by PysparkPMML.
-  
+### How to do it
+First, you need to download [JPMML-SparkML jar](https://github.com/jpmml/jpmml-sparkml#features) and add it to Spark jars folder. After downloading it, you can install [PySpark2PMML](https://github.com/jpmml/pyspark2pmml). Before downloading and installing all pmml libraries please check which Spark version you have, you can check on pmml documentation which version is compatible with yours. Remember to install numpy too, because is used by PysparkPMML.
+ 
+The project use Google Chrome to open the client because it consents to manage CORS policy.
+
 ### Change paths
-In  both cluster and local folder, you can find a folder named script, inside there are the main scripts for run the project, those scripts are :
+In both cluster and local folders, you can find a folder named script, inside there are the main scripts for launch the project.  
+These scripts are:
 
 * runHadoop.sh
 * runHive.sh
 * runSparkAPP.sh
 * runProject.sh
 
-You need to run just **runProject.sh**, but before running it you should change al paths containend in the other scripts, like Hadoop, Apache and Hive paths and also Python path.
+You need to run just **runProject.sh**, but before running it you should change all paths containend in the other scripts, like Hadoop, Spark and Hive paths and Python path too.
