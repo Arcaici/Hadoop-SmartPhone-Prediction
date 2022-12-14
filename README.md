@@ -10,7 +10,7 @@ The repo contains a Hadoop cluster configuration and a client-server app. The go
 ## Hadoop Configuration
 
 The application is tested in both local and cluster modes.  
-We used [ZeroTier]{https://www.zerotier.com/} to connect our two machines.  
+We used [ZeroTier](https://www.zerotier.com/) to connect our two machines.  
 
 These configuration are available as README to:
 * [Hadoop Local Mode](https://github.com/Arcaici/Hadoop-SmartPhone-Prediction/blob/main/local)
