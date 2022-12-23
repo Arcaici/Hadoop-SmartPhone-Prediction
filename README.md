@@ -8,6 +8,9 @@
 The repo contains a Hadoop cluster configuration and a client-server app. The goal is to predict smartphone's price range using a machine learning model generated over Apache Spark, and visualize charts about smarphone statistics using data originated by Apache Hive.  
 <img src="Images/Logo for Spark.svg" width="105">  <img src="Images/Logo for Hive.svg" width="105">  
 
+This image represents one possible output result.  
+<img src="Images/client.png">  
+
 ## Hadoop Configuration
 
 The application is tested in both local and cluster modes.  
