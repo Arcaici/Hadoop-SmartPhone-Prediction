@@ -9,6 +9,7 @@ The repo contains a Hadoop cluster configuration and a client-server app. The go
 <img src="Images/Logo for Spark.svg" width="105">  <img src="Images/Logo for Hive.svg" width="105">      
 
 This image represents one possible output result.  
+
 <img src="Images/client.png">  
 
 ## Hadoop Configuration
